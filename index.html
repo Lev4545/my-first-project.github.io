@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #556dd6 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
         }
@@ -104,7 +104,7 @@
         }
 
         .price-badge {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            background: linear-gradient(45deg, #fdad00, #fcac00);
             color: white;
             padding: 10px 15px;
             border-radius: 20px;
@@ -112,7 +112,32 @@
             font-size: 0.9rem;
         }
 
-        .features {
+        
+
+        .pay-btn {
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pay-btn:focus {
+            outline: 3px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 2px;
+        }
+
+        .pay-btn:hover {
+            filter: brightness(1.06);
+            transform: translateY(-1px);
+        }
+
+        .pay-btn:active {
+            transform: translateY(0);
+            filter: brightness(0.98);
+        }
+.features {
             background: rgba(255, 255, 255, 0.1);
             padding: 50px 0;
             border-radius: 15px;
@@ -151,7 +176,7 @@
 
         .feature-icon {
             font-size: 2.5rem;
-            color: #ff6b6b;
+            color: #ffb700;
             margin-bottom: 20px;
         }
 
@@ -272,8 +297,8 @@
                     <h3>HTML и CSS для создания сайтов</h3>
                     <p>Создание современных веб-страниц с использованием HTML и CSS.</p>
                     <div class="course-meta">
-                        <span>2 месяца обучения</span>
-                        <span class="price-badge">5000 руб</span>
+                        <span>4,5 месяца обучения</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="5000">5000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -287,8 +312,8 @@
                     <h3>JavaScript для веб-разработки</h3>
                     <p>Создание интерактивных сайтов с использованием JavaScript.</p>
                     <div class="course-meta">
-                        <span>1 месяц обучения</span>
-                        <span class="price-badge">10000 руб</span>
+                        <span>3,5 месяца обучения</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="10000">10000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -303,7 +328,7 @@
                     <p>Основы программирования на Python для новичков.</p>
                     <div class="course-meta">
                         <span>4 месяца обучения</span>
-                        <span class="price-badge">15000 руб</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="15000">15000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -317,8 +342,8 @@
                     <h3>Java для разработчиков</h3>
                     <p>Создание приложений на Java с использованием современных технологий.</p>
                     <div class="course-meta">
-                        <span>1,5 месяц обучения</span>
-                        <span class="price-badge">10000 руб</span>
+                        <span>6 месяцев обучения</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="10000">25000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -332,8 +357,8 @@
                     <h3>React для создания интерфейсов</h3>
                     <p>Создание современных веб-приложений с использованием React.</p>
                     <div class="course-meta">
-                        <span>1 месяц обучения</span>
-                        <span class="price-badge">5000 руб</span>
+                        <span>2 месяца обучения</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="5000">5000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -347,8 +372,8 @@
                     <h3>Node.js для backend разработки</h3>
                     <p>Создание серверных приложений на Node.js и Express.</p>
                     <div class="course-meta">
-                        <span>4 месяца обучения</span>
-                        <span class="price-badge">20000 руб</span>
+                        <span>5 месяцев обучения</span>
+                        <button class="price-badge pay-btn" type="button" data-amount="20000">20000 руб <i class="fas fa-credit-card" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -417,7 +442,24 @@
                     observer.observe(element);
                 });
             });
-        </script>
+        
+                // Оплата (эквайринг): сделаем цену кнопкой оплаты
+                // ВАЖНО: замените PAYMENT_BASE_URL на ссылку вашего эквайринга/платёжной страницы.
+                const PAYMENT_BASE_URL = "https://yookassa.ru/my/payments"; // <-- сюда вставьте ссылку эквайринга
+
+                document.querySelectorAll(".pay-btn").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const amount = btn.getAttribute("data-amount") || "";
+                        const courseTitle = btn.closest(".course-card")?.querySelector("h3")?.textContent?.trim() || "Курс";
+                        // Простейшая передача параметров (можно подстроить под вашего провайдера)
+                        const url = new URL(PAYMENT_BASE_URL);
+                        if (amount) url.searchParams.set("amount", amount);
+                        url.searchParams.set("description", courseTitle);
+                        window.location.href = url.toString();
+                    });
+                });
+
+            </script>
     </div>
 
     <style>
